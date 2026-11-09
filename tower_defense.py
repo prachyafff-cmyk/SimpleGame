@@ -25,6 +25,7 @@ import random
 import time
 import tkinter as tk
 import tkinter.font as tkfont
+import webbrowser
 
 # ---------------------------------------------------------------- settings
 COLS, ROWS, CELL = 20, 14, 40
@@ -51,6 +52,9 @@ BAD = "#ff5370"
 BLUE = "#4d9dff"
 SHADOW = "#2b5230"       # drop shadow on grass (tk has no real transparency)
 PATH_SHADOW = "#a5844f"  # drop shadow on the road
+
+DEV_NAME = "Prachya WC"
+REPO_URL = "https://github.com/prachyafff-cmyk/SimpleGame"
 
 # attack: bullet | shell | missile | beam | chain | cone | none
 TOWER_TYPES = {
@@ -912,6 +916,9 @@ class Game:
     def toggle_auto(self):
         self.auto_wave = not self.auto_wave
 
+    def open_repo(self):
+        webbrowser.open(REPO_URL)
+
     def toggle_pause(self):
         if not self.game_over:
             self.paused = not self.paused
@@ -1061,10 +1068,18 @@ class Game:
             c.create_oval(x + 1, y - 4, x + 5, y, fill=BG, outline="")
 
         x = 262
-        x = chip(x, 104, coin, f"{self.gold}", ACCENT)
-        x = chip(x, 82, heart, f"{self.lives}", BAD if self.lives <= 5 else TEXT)
-        x = chip(x, 112, flag, f"Wave {self.wave}", TEXT)
-        chip(x, 96, skull, f"{self.kills}", TEXT)
+        x = chip(x, 96, coin, f"{self.gold}", ACCENT)
+        x = chip(x, 76, heart, f"{self.lives}", BAD if self.lives <= 5 else TEXT)
+        x = chip(x, 104, flag, f"Wave {self.wave}", TEXT)
+        x = chip(x, 86, skull, f"{self.kills}", TEXT)
+
+        # developer credit -> opens the GitHub repo
+        def code_icon(cv, ix, iy, fg):
+            cv.create_line(ix - 2, iy - 5, ix - 7, iy, ix - 2, iy + 5, fill=fg, width=2)
+            cv.create_line(ix + 2, iy - 5, ix + 7, iy, ix + 2, iy + 5, fill=fg, width=2)
+
+        self.button("top", "dev", x, 11, x + 120, TOP - 11, f"by {DEV_NAME}",
+                    self.open_repo, size=9, icon=code_icon)
 
         # right-side controls
         right = W + PW - 12
@@ -1702,6 +1717,8 @@ class Game:
                           fill=TEXT, font=(FONT, -19), tags=T)
             c.create_text(W / 2, H / 2 + 22, text=f"สถิติสูงสุด: Wave {self.best_wave}",
                           fill=ACCENT, font=(FONT, -15, "bold"), tags=T)
+            c.create_text(W / 2, H / 2 + 94, text=f"พัฒนาโดย {DEV_NAME}", fill=DIM,
+                          font=(FONT, -12), tags=T)
             c.create_text(W / 2, H / 2 + 66, text="R = เล่นแผนที่เดิม      N = แผนที่ใหม่",
                           fill=MUTED, font=(FONT, -15), tags=T)
 
