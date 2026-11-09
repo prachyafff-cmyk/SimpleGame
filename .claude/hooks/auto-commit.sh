@@ -9,8 +9,7 @@ msg=""
 git add -A -- . "$SKIP"
 if ! git diff --cached --quiet -- . "$SKIP"; then
   files=$(git diff --cached --name-only -- . "$SKIP" | head -5 | paste -sd' ' -)
-  if git commit -q -m "Auto-commit: update $files" \
-       -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" -- . "$SKIP"; then
+  if git commit -q -m "Auto-commit: update $files" -- . "$SKIP"; then
     msg="Auto-committed: $files"
   fi
 fi
