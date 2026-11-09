@@ -22,6 +22,9 @@ env/
 Thumbs.db
 desktop.ini
 
+# Personal scratch files (not part of the game)
+็Hello.py
+
 # Logs & temp
 *.log
 *.tmp
